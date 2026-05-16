@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7319478889865607"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FunZone Games - Free Mini Games Online</title>
+<meta name="description" content="Play free mini games online! Snake, Memory Match, Tic-Tac-Toe and more. No download needed!">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 25%, #4ECDC4 50%, #A8E6CF 75%, #FF8B94 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* ============ ADSENSE ADS ============ */
+  .ad-header {
+    background: #f9f9f9;
+    text-align: center;
+    padding: 10px;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #eee;
+  }
+  .ad-sidebar {
+    background: #f9f9f9;
+    min-height: 600px;
+    width: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    position: sticky;
+    top: 80px;
+    flex-shrink: 0;
+  }
+  .ad-infeed {
+    background: #f9f9f9;
+    min-height: 280px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #aaa;
+    font-size: 12px;
+    grid-column: 1 / -1;
+  }
+  .ad-footer {
+    background: #f9f9f9;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid #eee;
+    margin-top: 24px;
+  }
+
+  /* ============ NAVBAR ============ */
+  nav {
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(10px);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-size: 22px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #FF6B6B, #FFE66D, #4ECDC4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-links { display: flex; gap: 20px; list-style: none; }
+  .nav-links a { text-decoration: none; color: #444; font-weight: 600; font-size: 14px; }
+  .nav-links a:hover { color: #FF6B6B; }
+
+  /* ============ HERO ============ */
+  .hero {
+    text-align: center;
+    padding: 48px 24px 32px;
+    color: white;
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .hero p { font-size: 16px; opacity: 0.95; font-weight: 500; }
+
+  /* ============ LAYOUT ============ */
+  .main-layout {
+    display: flex;
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 16px 40px;
+    align-items: flex-start;
+  }
+  .games-section { flex: 1; min-width: 0; }
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  /* ============ GAME CARDS ============ */
+  .game-card {
+    background: rgba(255,255,255,0.97);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .game-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+  }
+  .game-header {
+    padding: 16px 20px 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .game-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+  }
+  .game-title { font-size: 18px; font-weight: 800; color: #222; }
+  .game-desc { font-size: 13px; color: #888; margin-top: 2px; }
+  .game-area { padding: 16px 20px 20px; }
+
+  /* ============ SNAKE ============ */
+  #snakeCanvas {
+    background: #1a1a2e;
+    border-radius: 12px;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    height: 200px;
+  }
+
+  /* ============ MEMORY ============ */
+  .memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .mem-card {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #4ECDC4, #44A08D);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    transition: transform 0.35s;
+    transform-style: preserve-3d;
+    position: relative;
+    border: none;
+    user-select: none;
+  }
+  .mem-card .front, .mem-card .back {
+    position: absolute;
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    backface-visibility: hidden;
+    border-radius: 8px;
+  }
+  .mem-card .front { font-size: 20px; color: white; font-weight: 700; }
+  .mem-card .back { transform: rotateY(180deg); font-size: 20px; background: white; }
+  .mem-card.flipped { transform: rotateY(180deg); }
+  .mem-card.matched { opacity: 0.5; pointer-events: none; }
+
+  /* ============ TTT ============ */
+  .ttt-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+    max-width: 220px;
+    margin-left: auto; margin-right: auto;
+  }
+  .ttt-cell {
+    aspect-ratio: 1;
+    background: #f8f8f8;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-size: 28px; font-weight: 900;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .ttt-cell:hover { background: #FFF9E6; }
+  .ttt-cell.x { color: #FF6B6B; }
+  .ttt-cell.o { color: #4ECDC4; }
+
+  /* ============ CONTROLS ============ */
+  .game-controls {
+    display: flex; gap: 8px; margin-top: 10px;
+    align-items: center; justify-content: space-between;
+  }
+  .btn-play {
+    background: linear-gradient(135deg, #FF6B6B, #FF8B94);
+    color: white; border: none; border-radius: 10px;
+    padding: 8px 18px; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: transform 0.1s;
+  }
+  .btn-play:hover { transform: scale(1.05); }
+  .score-badge {
+    background: #f0f0f0; border-radius: 8px;
+    padding: 6px 12px; font-size: 13px; font-weight: 700; color: #444;
+  }
+  .game-status {
+    text-align: center; font-size: 13px; font-weight: 700;
+    color: #666; min-height: 22px; margin-bottom: 6px;
+  }
+  .controls-hint { font-size: 11px; color: #bbb; text-align: center; margin-top: 4px; }
+
+  /* ============ COMING SOON ============ */
+  .coming-soon {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 180px;
+    background: rgba(255,255,255,0.5);
+    border: 2px dashed #ddd;
+    border-radius: 20px;
+    box-shadow: none;
+  }
+  .coming-soon div { text-align: center; color: #bbb; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: rgba(255,255,255,0.95);
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+    color: #888;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ADSENSE (Replace with your AdSense code) ===== -->
+<div class="ad-header">
+  <!-- PASTE YOUR ADSENSE LEADERBOARD AD CODE HERE (728x90) -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">🎮 FunZone Games</div>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">All Games</a></li>
+    <li><a href="#">Leaderboard</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🎮 Play Free Mini Games!</h1>
+  <p>No download, no signup — just fun! Play Snake, Memory, Tic-Tac-Toe & more.</p>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+
+  <!-- GAMES SECTION -->
+  <div class="games-section">
+    <div class="games-grid">
+
+      <!-- SNAKE GAME -->
+      <div class="game-card">
+        <div class="game-header">
+          <div class="game-icon" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">🐍</div>
+          <div>
+            <div class="game-title">Snake Classic</div>
+            <div class="game-desc">Eat food, grow longer!</div>
+          </div>
+        </div>
+        <div class="game-area">
+          <canvas id="snakeCanvas" width="400" height="200"></canvas>
+          <div class="controls-hint">⬆⬇⬅➡ Arrow keys / WASD to move</div>
+          <div class="game-controls">
+            <button class="btn-play" onclick="startSnake()">▶ Start Game</button>
+            <div class="score-badge">Score: <span id="snakeScore">0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEMORY GAME -->
+      <div class="game-card">
+        <div class="game-header">
+          <div class="game-icon" style="background:linear-gradient(135deg,#4ECDC4,#44A08D)">🃏</div>
+          <div>
+            <div class="game-title">Memory Match</div>
+            <div class="game-desc">Find all matching pairs!</div>
+          </div>
+        </div>
+        <div class="game-area">
+          <div class="memory-grid" id="memoryGrid"></div>
+          <div class="game-status" id="memoryStatus">Click a card to start!</div>
+          <div class="game-controls">
+            <button class="btn-play" style="background:linear-gradient(135deg,#4ECDC4,#44A08D)" onclick="initMemory()">🔄 New Game</button>
+            <div class="score-badge">Moves: <span id="memMoves">0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IN-FEED ADSENSE AD -->
+      <div class="ad-infeed">
+        <!-- PASTE YOUR ADSENSE IN-FEED AD CODE HERE (336x280) -->
+        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+        <div>📢 Ad Space<br><small>AdSense In-Feed (336×280)</small></div>
+      </div>
+
+      <!-- TIC TAC TOE -->
+      <div class="game-card">
+        <div class="game-header">
+          <div class="game-icon" style="background:linear-gradient(135deg,#FF6B6B,#FFE66D)">❌</div>
+          <div>
+            <div class="game-title">Tic-Tac-Toe</div>
+            <div class="game-desc">2 players — same device!</div>
+          </div>
+        </div>
+        <div class="game-area">
+          <div class="ttt-grid" id="tttGrid"></div>
+          <div class="game-status" id="tttStatus">Player ❌ turn</div>
+          <div class="game-controls">
+            <button class="btn-play" style="background:linear-gradient(135deg,#FFE66D,#FF6B6B);color:#222" onclick="initTTT()">🔄 Restart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMING SOON -->
+      <div class="coming-soon">
+        <div>
+          <div style="font-size:36px;margin-bottom:8px">🚀</div>
+          <div style="font-weight:700;font-size:15px;color:#bbb">More Games Coming Soon!</div>
+          <div style="font-size:12px;margin-top:4px;color:#ccc">Quiz, Puzzle, Sudoku & more...</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FOOTER AD -->
+    <div class="ad-footer">
+      <!-- PASTE YOUR ADSENSE BANNER AD CODE HERE (728x90) -->
+      <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+      <small style="color:#ccc">Ad Space — AdSense Banner (728×90)</small>
+    </div>
+  </div>
+
+  <!-- SIDEBAR ADSENSE AD -->
+  <div class="ad-sidebar">
+    <!-- PASTE YOUR ADSENSE SIDEBAR AD CODE HERE (160x600) -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+    <small style="color:#ccc;font-size:11px;text-align:center">Ad Space<br>Sidebar<br>(160×600)</small>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>🎮 FunZone Games &copy; 2025 — Free Online Mini Games | Privacy Policy | Contact</p>
+</footer>
+
+<script>
+// ==================== SNAKE GAME ====================
+const canvas = document.getElementById('snakeCanvas');
+const ctx = canvas.getContext('2d');
+const COLS = 20, ROWS = 10;
+let cw, ch;
+
+function resizeCanvas() {
+  cw = Math.floor(canvas.offsetWidth / COLS);
+  ch = Math.floor(canvas.height / ROWS);
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+let snake, dir, food, snakeInterval, snakeRunning = false, snakeScore = 0;
+
+function startSnake() {
+  if(snakeInterval) clearInterval(snakeInterval);
+  resizeCanvas();
+  snake = [{x:10,y:5},{x:9,y:5},{x:8,y:5}];
+  dir = {x:1,y:0};
+  snakeScore = 0;
+  document.getElementById('snakeScore').textContent = 0;
+  placeFood();
+  snakeRunning = true;
+  snakeInterval = setInterval(gameLoop, 120);
+}
+
+function placeFood() {
+  food = {x: Math.floor(Math.random()*COLS), y: Math.floor(Math.random()*ROWS)};
+  if(snake.some(s=>s.x===food.x&&s.y===food.y)) placeFood();
+}
+
+function gameLoop() {
+  const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
+  if(head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS||snake.some(s=>s.x===head.x&&s.y===head.y)){
+    clearInterval(snakeInterval); snakeRunning=false; drawSnake(true); return;
+  }
+  snake.unshift(head);
+  if(head.x===food.x&&head.y===food.y){
+    snakeScore++; document.getElementById('snakeScore').textContent=snakeScore; placeFood();
+  } else { snake.pop(); }
+  drawSnake(false);
+}
+
+function drawSnake(dead) {
+  resizeCanvas();
+  ctx.fillStyle='#1a1a2e'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#FFE66D';
+  ctx.beginPath(); ctx.arc(food.x*cw+cw/2, food.y*ch+ch/2, Math.min(cw,ch)/2-2, 0, Math.PI*2); ctx.fill();
+  snake.forEach((s,i)=>{
+    ctx.fillStyle = dead ? '#FF6B6B' : (i===0 ? '#A8E6CF' : '#4ECDC4');
+    ctx.beginPath();
+    ctx.roundRect(s.x*cw+1, s.y*ch+1, cw-2, ch-2, 4);
+    ctx.fill();
+  });
+  if(dead){
+    ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.font='bold 16px Segoe UI'; ctx.textAlign='center';
+    ctx.fillText('Game Over! Score: '+snakeScore, canvas.width/2, canvas.height/2);
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if(!snakeRunning) return;
+  const keys = {
+    ArrowUp:{x:0,y:-1}, ArrowDown:{x:0,y:1}, ArrowLeft:{x:-1,y:0}, ArrowRight:{x:1,y:0},
+    w:{x:0,y:-1}, s:{x:0,y:1}, a:{x:-1,y:0}, d:{x:1,y:0}
+  };
+  const nd = keys[e.key];
+  if(nd && !(nd.x===-dir.x&&nd.y===-dir.y)) { dir=nd; e.preventDefault(); }
+});
+
+// Initial canvas draw
+(function(){
+  ctx.fillStyle='#1a1a2e'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='rgba(255,255,255,0.8)'; ctx.font='bold 14px Segoe UI'; ctx.textAlign='center';
+  ctx.fillText('Press Start to Play!', canvas.width/2, canvas.height/2);
+})();
+
+
+// ==================== MEMORY GAME ====================
+const emojis = ['🍕','🎸','🌈','🦋','🍦','🎯','🚀','⭐'];
+let memCards=[], memFlipped=[], memMatched=[], memMoves=0, memLocked=false;
+
+function initMemory() {
+  memCards = [...emojis,...emojis].sort(()=>Math.random()-0.5);
+  memFlipped=[]; memMatched=[]; memMoves=0; memLocked=false;
+  document.getElementById('memMoves').textContent=0;
+  document.getElementById('memoryStatus').textContent='Click a card to start!';
+  const grid = document.getElementById('memoryGrid');
+  grid.innerHTML='';
+  memCards.forEach((emoji,i)=>{
+    const card = document.createElement('div');
+    card.className='mem-card';
+    card.innerHTML=`<div class="front">?</div><div class="back">${emoji}</div>`;
+    card.addEventListener('click',()=>flipCard(card,i));
+    grid.appendChild(card);
+  });
+}
+
+function flipCard(card, idx) {
+  if(memLocked||memFlipped.includes(idx)||memMatched.includes(idx)||card.classList.contains('flipped')) return;
+  card.classList.add('flipped');
+  memFlipped.push(idx);
+  if(memFlipped.length===2){
+    memMoves++; document.getElementById('memMoves').textContent=memMoves;
+    memLocked=true;
+    const [a,b]=memFlipped;
+    if(memCards[a]===memCards[b]){
+      memMatched.push(a,b);
+      document.querySelectorAll('.mem-card')[a].classList.add('matched');
+      document.querySelectorAll('.mem-card')[b].classList.add('matched');
+      memFlipped=[]; memLocked=false;
+      if(memMatched.length===memCards.length)
+        document.getElementById('memoryStatus').textContent='🎉 You won in '+memMoves+' moves!';
+      else document.getElementById('memoryStatus').textContent='✅ Match! Keep going!';
+    } else {
+      document.getElementById('memoryStatus').textContent='❌ Not a match...';
+      setTimeout(()=>{
+        document.querySelectorAll('.mem-card')[a].classList.remove('flipped');
+        document.querySelectorAll('.mem-card')[b].classList.remove('flipped');
+        memFlipped=[]; memLocked=false;
+        document.getElementById('memoryStatus').textContent='Keep trying!';
+      }, 900);
+    }
+  }
+}
+initMemory();
+
+
+// ==================== TIC TAC TOE ====================
+let tttBoard, tttTurn, tttOver;
+const winPatterns=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+function initTTT(){
+  tttBoard=Array(9).fill('');
+  tttTurn='X'; tttOver=false;
+  document.getElementById('tttStatus').textContent="Player ❌ turn";
+  const grid=document.getElementById('tttGrid');
+  grid.innerHTML='';
+  for(let i=0;i<9;i++){
+    const cell=document.createElement('div');
+    cell.className='ttt-cell';
+    cell.addEventListener('click',()=>tttMove(cell,i));
+    grid.appendChild(cell);
+  }
+}
+
+function tttMove(cell,i){
+  if(tttOver||tttBoard[i]) return;
+  tttBoard[i]=tttTurn;
+  cell.textContent = tttTurn==='X'?'❌':'⭕';
+  cell.classList.add(tttTurn.toLowerCase());
+  if(checkWin()){
+    tttOver=true;
+    document.getElementById('tttStatus').textContent='🏆 Player '+(tttTurn==='X'?'❌':'⭕')+' wins!';
+  } else if(!tttBoard.includes('')){
+    tttOver=true;
+    document.getElementById('tttStatus').textContent="🤝 It's a draw!";
+  } else {
+    tttTurn=tttTurn==='X'?'O':'X';
+    document.getElementById('tttStatus').textContent="Player "+(tttTurn==='X'?'❌':'⭕')+" turn";
+  }
+}
+
+function checkWin(){
+  return winPatterns.some(([a,b,c])=>tttBoard[a]&&tttBoard[a]===tttBoard[b]&&tttBoard[a]===tttBoard[c]);
+}
+initTTT();
+</script>
+</body>
+</html>
